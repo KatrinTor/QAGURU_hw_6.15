@@ -13,18 +13,19 @@ def is_mobile(widgh):
 def setup_browser(request):
     browser.config.window_height = request.param[0]
     browser.config.window_width = request.param[1]
+    browser.config.driver_name = 'firefox'
 
 
 def test_github_desktop(setup_browser):
     if is_mobile(browser.config.window_width):
-        pytest.skip('Этот тест подходит для десктопа')
+        pytest.skip('Тест для мобильных устройств')
     browser.open('https://github.com/')
     browser.element('[href="/login"]').click()
 
 
 def test_github_mobile(setup_browser):
     if not is_mobile(browser.config.window_width):
-        pytest.skip('Этот тест подходит для мобильных устройств')
+        pytest.skip('Тест для десктопа')
     browser.open('https://github.com/')
     browser.element('[class*="rounded my-1"]').click()
     browser.element('[href="/login"]').click()
